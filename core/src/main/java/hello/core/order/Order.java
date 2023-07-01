@@ -54,11 +54,9 @@ public class Order {
     //출력에 용이하기 위해 사용 => 객체 출력 시  toString이 출력됨
     @Override
     public String toString() {
-        return "Order{" +
-                "memberId=" + memberId +
+        return "memberId=" + memberId +
                 ", itemName='" + itemName + '\'' +
                 ", itemPrice=" + itemPrice +
-                ", discountPrice=" + discountPrice +
-                '}';
+                ", discountPrice=" + discountPrice;
     }
 }
