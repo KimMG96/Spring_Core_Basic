@@ -28,4 +28,17 @@ public class SingletonTest {
         assertThat(memberService1).isNotSameAs(memberService2);
         //트래픽이 초당 100이 나오면 초당 100개 객체가 생성되고 소멸되는 메모리 낭비가 발생 -> 싱글톤 패턴으로 해결
     }
+
+    @Test
+    @DisplayName("싱글톤 패턴을 적용한 객체 사용")
+    void singletonServiceTest(){
+        SingletonService singletonService1 = SingletonService.getInstance();
+        SingletonService singletonService2 = SingletonService.getInstance();
+
+        System.out.println("singletonService1 = " + singletonService1);
+        System.out.println("singletonService2 = " + singletonService2);
+        //같은 객체 인스턴스 반환 확인
+
+        assertThat(singletonService1).isSameAs(singletonService2);
+    }
 }
