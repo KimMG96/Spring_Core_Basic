@@ -13,11 +13,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
-    //@Bean memberService -> new MemoryMemberRepository()
-    //@Bean orderService -> new MemoryMemberRepository()
-    //결과적으로 각각 다른 2개의 MemoryMemberRepository가 생성되어 싱글톤이 깨지는 것으로 보인다.
+    //CGLIB 예상 기능
+    //@Bean이 붙은 메소드마다 스프링 컨테이너에 빈이 존재하면 반환하고, 없으면 생성해서 스프링 빈으로 등록하고 반환하는 코드가 동적으로 만들어진다.
+    //@Configuration없이 @Bean만 사용해도 스프링 빈으로 등록되지만, 싱글톤을 보장하지 않는다.
 
-    //실행 결과 call 출력이 3번 밖에 출력되지 않는다.
     @Bean
     public MemberService memberService(){
         System.out.println("call AppConfig.memberService");
