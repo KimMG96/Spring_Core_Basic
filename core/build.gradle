@@ -11,12 +11,28 @@ java {
     sourceCompatibility = '11'
 }
 
+//************ lombok setting ************
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+//****************************************
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+
+    //************ lombok setting ************
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    //****************************************
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
