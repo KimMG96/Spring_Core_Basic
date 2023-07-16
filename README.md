@@ -280,7 +280,7 @@ final 키워드를 사용하면 생성자도 만들어야 하고, 중비 받은 
    @Autowired
    private DiscountPolicy rateDiscountPolicy
    
-3. @Qualifier -> @Qulifier 끼리 매칭 -> 빈 이름 매칭
+2. @Qualifier -> @Qulifier 끼리 매칭 -> 빈 이름 매칭
    @Qualifier 추가 구분자를 붙여주는 방법이다. 주입 시 추가적인 방법을 제공하는 것으로, 빈 이름을 변경하지는 않는다.
    @Qualifier는 @Qualifier를 찾는 용도로만 사용하는 것이 명확하다.
 
@@ -293,7 +293,7 @@ final 키워드를 사용하면 생성자도 만들어야 하고, 중비 받은 
    @Autowired
    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy)
 
-5. @Primary 사용
+3. @Primary 사용
    @Primary는 우선순위를 정하는 방법이다. @Autowired시 여러 빈이 매칭되면, @Primary가 우선권을 가진다.
 
    RateDiscountPolicy.java
