@@ -8,18 +8,19 @@ import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor //final이 붙은 필드를 모아서 생성자를 자동으로 만들어준다(Ctrl + F12로 확인가능)
 public class OrderServiceImpl implements OrderService{
-    //롬복이 자바의 어노테이션 프로세서라는 기능을 이용해서 컴파일 시점에 생성자 코들르 자동으로 생성해준다.
-    //실제 'class'를 열어보면 생성자를 추가하는 코드가 작성되어 있는 것을 확인할 수 있다.
-    //최근에는 생성자를 1개만 두고, @Autowired를 생략하는 방법을 주로 사용한다.
-    //이에 더하여 Lombok라이브러리의 @RequiredArgsConstructor를 함께 사용하면 기능은 전부 제공하며, 코드는 더 간결하다.
 
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
+
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
