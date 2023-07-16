@@ -248,3 +248,55 @@ IOC 컨테이너, DI 컨테이너
 
 ** 컴파일 오류가 가장 빠르고 좋은 오류이다.
 ** 수정자 주입을 포함한 나머지 주입 방식은 생성자 이후에 호출되므로, 필드에 final 키워드를 사용할 수 없다. 오직 생성자 주입 방식만 사용가능하다.
+
+===========================================================================
+
+롬복과 최신 트렌드
+
+막상 개발을 해보면 대부분이 다 불변이기 때문에 필드에 final키워드를 사용하게 된다.
+final 키워드를 사용하면 생성자도 만들어야 하고, 중비 받은 값을 대입하는 코드도 작성해야 한다.
+이전에 학습했던 필드 주입처럼 간편하게 사용하는 롬복에 대해 알아보자.
+
+1. build.gradle에 롬복 라이브러리를 적용
+2. @RequiredArgsConstructor 기능을 통해 final이 붙은 필드를 모아 생성자를 자동 생성
+
+롬복이 자바의 어노테이션 프로세서라는 기능을 이용해서 컴파일 시점에 생성자 코드르 자동으로 생성해준다.
+실제 'class'를 열어보면 생성자를 추가하는 코드가 작성되어 있는 것을 확인할 수 있다. (Ctrl + F12로 확인가능)
+최근에는 생성자를 1개만 두고, @Autowired를 생략하는 방법을 주로 사용한다.
+이에 더하여 Lombok라이브러리의 @RequiredArgsConstructor를 함께 사용하면 기능은 전부 제공하며, 코드는 더 간결하다.
+
+===========================================================================
+
+조회할 빈이 2개 이상일 때 - 문제 -> @Autowired 필드 명, @Qualifier, @Primary
+
+@Autowired는 타입으로 조회하기 때문에, ac.getBean(DiscountPlicy.calss)와 유사하게 동작한다.
+스프링 빈 조회에서 학습했듯이 타입으로 조회시 선택된 빈이 2개 이상이면 NoUniqueBeanDefinitionException 문제가 발생한다.
+이때 하위 타입으로 지정할 수 도 있지만, 하위 타입으로 지정하는 것은 DIP를 위배하고, 유연성이 떨어진다.
+스프링 빈 수동 등록으로 해결할 수도 있지만, 의존 관계 자동 주입으로 해결하는 여러 방법을 알아보자.
+
+1. @Autowired 필드 명 매칭
+   @Autowired는 타입 매칭을 시도하고, 이때 여러 빈이 있으면, 필드 이름, 파라미터 이름으로 빈 이름을 추가 매칭한다.
+   
+   @Autowired
+   private DiscountPolicy rateDiscountPolicy
+   
+3. @Qualifier -> @Qulifier 끼리 매칭 -> 빈 이름 매칭
+   @Qualifier 추가 구분자를 붙여주는 방법이다. 주입 시 추가적인 방법을 제공하는 것으로, 빈 이름을 변경하지는 않는다.
+   @Qualifier는 @Qualifier를 찾는 용도로만 사용하는 것이 명확하다.
+
+   RateDiscountPolicy.java
+   @Component
+   @Qualifier("mainDiscountpolicy")
+   public class RateDiscountPolicy implements DiscountPolicy{
+
+   OrderServiceImpl.java
+   @Autowired
+   public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy)
+
+5. @Primary 사용
+   @Primary는 우선순위를 정하는 방법이다. @Autowired시 여러 빈이 매칭되면, @Primary가 우선권을 가진다.
+
+   RateDiscountPolicy.java
+   @Component
+   @Primary
+   public class RateDiscountPolicy implements DiscountPolicy {}
