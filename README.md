@@ -294,7 +294,7 @@ final 키워드를 사용하면 생성자도 만들어야 하고, 중비 받은 
    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy)
 
 5. @Primary 사용
-   @Primary는 우선순위를 정하는 방법이다. @Autowired시 여러 빈이 매칭되면, @Primary가 운선권을 가진다.
+   @Primary는 우선순위를 정하는 방법이다. @Autowired시 여러 빈이 매칭되면, @Primary가 우선권을 가진다.
 
    RateDiscountPolicy.java
    @Component
